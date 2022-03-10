@@ -48,21 +48,20 @@ def registro():
 
 @app.route('/login')
 def login():
-    correo = request.args.get('correo')
+    usuario = request.args.get('usuario')
     password = request.args.get('passw')
-    userName = request.args.get('userName')
 
-    if not password and (correo or userName):
+    if not password and usuario:
         return jsonify({
             'success': 'False',
             'message': 'Faltan campos'
         })
     
     loginCorreo = loaf.query(f''' SELECT IDUsuario FROM usuario
-                                    WHERE correo = '{correo}' AND contrasena = '{password}' ''')
+                                    WHERE correo = '{usuario}' AND contrasena = '{password}' ''')
 
     loginUserName = loaf.query(f''' SELECT IDUsuario FROM usuario
-                                    WHERE nombreUsuario = '{userName}' AND contrasena = '{password}' ''')
+                                    WHERE nombreUsuario = '{usuario}' AND contrasena = '{password}' ''')
     
     if loginCorreo:
         return jsonify({
