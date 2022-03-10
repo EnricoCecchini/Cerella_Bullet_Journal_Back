@@ -1,0 +1,85 @@
+from flask import Flask, jsonify, request, render_template
+from flask_cors import CORS
+from itsdangerous import json
+import loaf
+from pymysql import ProgrammingError
+from operator import itemgetter
+
+app = Flask(__name__)
+CORS(app)
+
+loaf.bake(
+    host='127.0.0.1',
+    port=3306,
+    user='root',
+    pasw='',
+    db='cerella'
+)
+
+@app.route('/registro')
+def registro():
+    correo = request.args.get('correo')
+    password = request.args.get('passw')
+    userName = request.args.get('userName')
+
+    if not (correo and password and userName):
+        return jsonify({
+            'success': 'False',
+            'message': 'Faltan campos'
+        })
+    
+    checkExistenciaCorreo = loaf.query(f''' SELECT FROM usuario
+                                    WHERE correo = '{correo}' ''')
+
+    checkExistenciaUser = loaf.query(f''' SELECT FROM usuario
+                                    WHERE nombreUsuario = '{userName}' ''')
+    
+    if checkExistenciaCorreo or checkExistenciaUser:
+        return jsonify({
+            'success': 'False',
+            'message': 'Esata cuenta ya existe'
+        })
+    
+    loaf.query(f''' INSERT INTO usuario (correo, contrasena, nombreUsuario)
+                    VALUES ('{correo}', '{password}', '{userName}')''')
+    
+    return jsonify({
+        'success': 'True',
+        'message': 'Usuario registrado exitosamente'
+    })
+
+@app.route('/login')
+def login():
+    correo = request.args.get('correo')
+    password = request.args.get('passw')
+    userName = request.args.get('userName')
+
+    if not password and (correo or userName):
+        return jsonify({
+            'success': 'False',
+            'message': 'Faltan campos'
+        })
+    
+    loginCorreo = loaf.query(f''' SELECT IDUsuario FROM usuario
+                                    WHERE correo = '{correo}' AND contrasena = '{password}' ''')
+
+    loginUserName = loaf.query(f''' SELECT IDUsuario FROM usuario
+                                    WHERE nombreUsuario = '{userName}' AND contrasena = '{password}' ''')
+    
+    if loginCorreo:
+        return jsonify({
+            'success': 'True',
+            'message': 'Login Exitoso',
+            'userID': loginCorreo[0]
+        })
+    elif loginUserName:
+        return jsonify({
+            'success': 'True',
+            'message': 'Login Exitoso',
+            'userID': loginUserName[0]
+        })
+    else:
+        return jsonify({
+            'success': 'False',
+            'message': 'Usuario o contrasena equivocados'
+        })
