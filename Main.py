@@ -41,9 +41,13 @@ def registro():
     loaf.query(f''' INSERT INTO usuario (correo, contrasena, nombreUsuario)
                     VALUES ('{correo}', '{password}', '{userName}')''')
     
+    userID = loaf.query(f''' SELECT IDUsuario FROM usuario
+                                    WHERE correo = '{correo}' AND contrasena = '{password}' ''')
+    
     return jsonify({
         'success': 'True',
-        'message': 'Usuario registrado exitosamente'
+        'message': 'Usuario registrado exitosamente',
+        'userID': userID[0]
     })
 
 @app.route('/login')
