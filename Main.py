@@ -98,6 +98,34 @@ def login():
             'message': 'Usuario o contrasena equivocados'
         })
 
+@app.route('/perfil')
+def perfil():
+    uid = request.args.get('userid')
+
+    if not uid:
+        return jsonify({
+            'success': 'False',
+            'message': 'Faltan campos'
+        })
+    
+    userInfo = loaf.query(f''' SELECT correo, username, password FROM usuario
+                                WHERE usuarioID = '{uid}' ''')
+    
+    if not userInfo:
+        return jsonify({
+            'success': 'False',
+            'message': 'Usuario no encontrado'
+        })
+    
+    usuario = {
+        'usuarioID': uid,
+        'correo': userInfo[0][0],
+        'userName': userInfo[0][1],
+        'password': userInfo[0][2]
+    }
+
+    return jsonify(usuario)
+
 # Ejecuta el API
 if __name__ == "__main__":
     app.run(debug=True)
