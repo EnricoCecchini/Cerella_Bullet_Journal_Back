@@ -1,7 +1,6 @@
 # Importacion de modulos requeridos
-from flask import Flask, jsonify, request, render_template
+from flask import Flask, jsonify, request
 from flask_cors import CORS
-from itsdangerous import json
 import loaf
 
 # Se crea objeto de Flask
@@ -33,12 +32,10 @@ def registro():
         })
     
     # Checa si el correo ya esta registrado
-    checkExistenciaCorreo = loaf.query(f''' SELECT FROM usuario
-                                    WHERE correo = '{correo}' ''')
+    checkExistenciaCorreo = loaf.query(f''' SELECT usuarioID FROM usuario WHERE correo = '{correo}' ''')
 
     # Checa si el nombre de usuario ya esta registrado
-    checkExistenciaUser = loaf.query(f''' SELECT FROM usuario
-                                    WHERE nombreUsuario = '{userName}' ''')
+    checkExistenciaUser = loaf.query(f''' SELECT usuarioID FROM usuario WHERE username = '{userName}' ''')
     
     if checkExistenciaCorreo or checkExistenciaUser:
         return jsonify({
@@ -47,12 +44,12 @@ def registro():
         })
     
     # Inserta datos de usuario
-    loaf.query(f''' INSERT INTO usuario (correo, contrasena, nombreUsuario)
+    loaf.query(f''' INSERT INTO usuario (correo, password, username)
                     VALUES ('{correo}', '{password}', '{userName}')''')
 
     # Obtiene ID de usuario registrado para ingresar
-    userID = loaf.query(f''' SELECT IDUsuario FROM usuario
-                                    WHERE correo = '{correo}' AND contrasena = '{password}' ''')
+    userID = loaf.query(f''' SELECT usuarioID FROM usuario
+                                    WHERE correo = '{correo}' AND password = '{password}' '''.replace('\n',' '))
     
     return jsonify({
         'success': 'True',
@@ -75,12 +72,12 @@ def login():
         })
     
     # Checa si se hace login con correo
-    loginCorreo = loaf.query(f''' SELECT IDUsuario FROM usuario
-                                    WHERE correo = '{usuario}' AND contrasena = '{password}' ''')
+    loginCorreo = loaf.query(f''' SELECT usuarioID FROM usuario
+                                    WHERE correo = '{usuario}' AND password = '{password}' '''.replace('\n',' '))
 
     # Checa si se hace login con userName
-    loginUserName = loaf.query(f''' SELECT IDUsuario FROM usuario
-                                    WHERE nombreUsuario = '{usuario}' AND contrasena = '{password}' ''')
+    loginUserName = loaf.query(f''' SELECT usuarioID FROM usuario
+                                    WHERE username = '{usuario}' AND password = '{password}' '''.replace('\n',' '))
     
     # Retorna userID si login fue exitoso, o indica si los datos no coinciden
     if loginCorreo:
