@@ -21,9 +21,13 @@ loaf.bake(
 
 @app.route("/")
 def index():
-    # if not (session["usuario"] and session["password"]):
-    #     session["usuario"]=""
-    #     session["password"]=""
+    try:
+        if not (session["usuario"] and session["password"]):
+            session["usuario"]=""
+            session["password"]=""
+    except KeyError:
+        session["usuario"]=""
+        session["password"]=""
     return render_template("index.html")
 
 # Funcion de registro
@@ -134,33 +138,40 @@ def login():
     else:
         return render_template("Login.html",error=error)
 
-@app.route('/perfil')
+@app.route('/perfil', methods=["POST","GET"])
 def perfil():
+    error=""
+    usuario = ''
     uid = request.args.get('userid')
 
     if not uid:
-        return jsonify({
-            'success': 'False',
-            'message': 'Faltan campos'
-        })
+        error="Faltan campos"
+        # return jsonify({
+        #     'success': 'False',
+        #     'message': 'Faltan campos'
+        # })
     
     userInfo = loaf.query(f''' SELECT correo, username, password FROM usuario
                                 WHERE usuarioID = '{uid}' ''')
     
     if not userInfo:
-        return jsonify({
-            'success': 'False',
-            'message': 'Usuario no encontrado'
-        })
+        error="El usuario no existe"
+        # return jsonify({
+        #     'success': 'False',
+        #     'message': 'Usuario no encontrado'
+        # })
     
-    usuario = {
-        'usuarioID': uid,
-        'correo': userInfo[0][0],
-        'userName': userInfo[0][1],
-        'password': userInfo[0][2]
-    }
+    # usuario = {
+    #     'usuarioID': uid,
+    #     'correo': userInfo[0][0],
+    #     'userName': userInfo[0][1],
+    #     'password': userInfo[0][2]
+    # }
 
-    return jsonify(usuario)
+    #usuario = [uid, userInfo[0][0], userInfo[0][1], userInfo[0][2]]
+    usuario = [1, 'User1', 'correo@correo.com', len('123456')]
+
+    return render_template('Perfil.html', error=error, usuario=usuario)
 
 @app.route("/catalogo")
 def catalogo():
