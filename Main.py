@@ -1,5 +1,4 @@
 # Importacion de modulos requeridos
-from crypt import methods
 from distutils.log import error
 from flask import Flask, jsonify, request, render_template, session, redirect, url_for
 from flask_cors import CORS
@@ -22,9 +21,9 @@ loaf.bake(
 
 @app.route("/")
 def index():
-    if not (session["usuario"] and session["password"]):
-        session["usuario"]=""
-        session["password"]=""
+    # if not (session["usuario"] and session["password"]):
+    #     session["usuario"]=""
+    #     session["password"]=""
     return render_template("index.html")
 
 # Funcion de registro
