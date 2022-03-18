@@ -106,27 +106,16 @@ def login():
             return render_template("Login.html",error=error)
         else:
             # Checa si se hace login con correo
-            loginCorreo = loaf.query(f''' SELECT usuarioID FROM usuario
-                                            WHERE correo = '{usuario}' AND password = '{password}' '''.replace('\n',' '))
-
-            # Checa si se hace login con userName
-            loginUserName = loaf.query(f''' SELECT usuarioID FROM usuario
-                                            WHERE username = '{usuario}' AND password = '{password}' '''.replace('\n',' '))
+            login = loaf.query(f''' SELECT usuarioID FROM usuario
+                                            WHERE (correo = '{usuario}' AND password = '{password}') OR (username = '{usuario}' AND password = '{password}') '''.replace('\n',' '))
             
             # Retorna userID si login fue exitoso, o indica si los datos no coinciden
-            if loginCorreo:
+            if login:
                 return redirect(url_for("catalogo"))
                 '''return jsonify({
                     'success': 'True',
                     'message': 'Login Exitoso',
                     'userID': loginCorreo[0]
-                })'''
-            elif loginUserName:
-                return redirect(url_for("catalogo"))
-                '''return jsonify({
-                    'success': 'True',
-                    'message': 'Login Exitoso',
-                    'userID': loginUserName[0]
                 })'''
             else:
                 error="Usuario o constraseña equivocados"
@@ -144,6 +133,9 @@ def perfil():
     usuario = ''
     uid = request.args.get('userid')
 
+    username = session["usuario"]
+    print('UserName', username)
+
     if not uid:
         error="Faltan campos"
         # return jsonify({
@@ -151,8 +143,8 @@ def perfil():
         #     'message': 'Faltan campos'
         # })
     
-    userInfo = loaf.query(f''' SELECT correo, username, password FROM usuario
-                                WHERE usuarioID = '{uid}' ''')
+    userInfo = loaf.query(f''' SELECT username, correo, password FROM usuario
+                                WHERE username = '{username}' OR correo = '{username}' ''')[0]
     
     if not userInfo:
         error="El usuario no existe"
@@ -168,8 +160,9 @@ def perfil():
     #     'password': userInfo[0][2]
     # }
 
-    #usuario = [uid, userInfo[0][0], userInfo[0][1], userInfo[0][2]]
-    usuario = [1, 'User1', 'correo@correo.com', len('123456')]
+    print('Eli', userInfo)
+    usuario = [userInfo[0], userInfo[1], len(userInfo[2])]
+    #usuario = [1, 'User1', 'correo@correo.com', len('123456')]
 
     return render_template('Perfil.html', error=error, usuario=usuario)
 
