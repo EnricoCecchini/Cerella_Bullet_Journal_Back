@@ -141,7 +141,7 @@ def perfil():
                 session['usuario']=newUsuario
     
     username = session["usuario"]
-    print('UserName', username)
+    # print('UserName', username)
     
     userInfo = loaf.query(f''' SELECT username, correo, password FROM usuario
                                 WHERE username = '{username}' OR correo = '{username}' ''')[0]
@@ -149,7 +149,7 @@ def perfil():
     if not userInfo:
         error="El usuario no existe"
 
-    print('Eli', userInfo)
+    # print('Eli', userInfo)
     usuario = [userInfo[0], userInfo[1], len(userInfo[2])]
 
     return render_template('Perfil.html', error=error, usuario=usuario, errorCambio=errorCambio)
