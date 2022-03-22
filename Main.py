@@ -1,5 +1,6 @@
 # Importacion de modulos requeridos
 from distutils.log import error
+from operator import methodcaller
 from flask import Flask, jsonify, request, render_template, session, redirect, url_for
 from flask_cors import CORS
 import loaf
@@ -108,9 +109,10 @@ def login():
             # Checa si se hace login con correo
             login = loaf.query(f''' SELECT usuarioID FROM usuario
                                             WHERE (correo = '{usuario}' AND password = '{password}') OR (username = '{usuario}' AND password = '{password}') '''.replace('\n',' '))
-            
+                        
             # Retorna userID si login fue exitoso, o indica si los datos no coinciden
             if login:
+                session['userID']=login[0][0]
                 return redirect(url_for("catalogo"))
                 '''return jsonify({
                     'success': 'True',
@@ -130,11 +132,9 @@ def login():
 @app.route('/perfil', methods=["POST","GET"])
 def perfil():
     error=""
+    errorCambio=""
     usuario = ''
     uid = request.args.get('userid')
-
-    username = session["usuario"]
-    print('UserName', username)
 
     if not uid:
         error="Faltan campos"
@@ -143,28 +143,37 @@ def perfil():
         #     'message': 'Faltan campos'
         # })
     
+    if request.method == "POST":
+        print('Updating profile')
+        newUsuario = request.form.get('username')
+        newPassword = request.form.get('passw')
+
+        userID = session['userID']
+
+        userNameExists = loaf.query(f''' SELECT usuarioID FROM usuario WHERE username = '{newUsuario}' ''')
+
+        if newPassword == '':
+            newPassword=session["password"]
+
+        if userNameExists:
+            errorCambio = 'El nombre de usuario ya esta registrado'
+        else:
+            loaf.query(f''' UPDATE usuario SET username='{newUsuario}', password='{newPassword}' WHERE usuarioID = '{userID}' ''')
+            session['usuario']=newUsuario
+    
+    username = session["usuario"]
+    print('UserName', username)
+    
     userInfo = loaf.query(f''' SELECT username, correo, password FROM usuario
                                 WHERE username = '{username}' OR correo = '{username}' ''')[0]
     
     if not userInfo:
         error="El usuario no existe"
-        # return jsonify({
-        #     'success': 'False',
-        #     'message': 'Usuario no encontrado'
-        # })
-    
-    # usuario = {
-    #     'usuarioID': uid,
-    #     'correo': userInfo[0][0],
-    #     'userName': userInfo[0][1],
-    #     'password': userInfo[0][2]
-    # }
 
     print('Eli', userInfo)
     usuario = [userInfo[0], userInfo[1], len(userInfo[2])]
-    #usuario = [1, 'User1', 'correo@correo.com', len('123456')]
 
-    return render_template('Perfil.html', error=error, usuario=usuario)
+    return render_template('Perfil.html', error=error, usuario=usuario, errorCambio=errorCambio)
 
 @app.route("/catalogo")
 def catalogo():
