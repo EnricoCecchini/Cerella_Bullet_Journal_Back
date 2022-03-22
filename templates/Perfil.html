@@ -51,8 +51,13 @@
                 <input name='passw' class="form-control form-control-lg" type="password" value='{{ usuario[2] }}'>
             </div>
             <br>
+            <div class="mx-5">
+                <label class="h2">Confirmar Password</label>
+                <input name='passw2' class="form-control form-control-lg" type="password" value=''>
+            </div>
+            <br>
             <div class="mx-5 mt-5">
-                <button name='modificar_cuenta' id='confirmar-cambios' for='cambiar-info-usuario-btn' class="btn btn-primary" onclick="alert('Informacion actualizada exitosamente!');window.location.reload()">Cambiar</button>
+                <button name='modificar_cuenta' id='confirmar-cambios' for='cambiar-info-usuario-btn' class="btn btn-primary" onclick="window.location.reload()">Cambiar</button>
             </div>
         </form>
         {%block error1%}{%if error%}
@@ -60,7 +65,12 @@
             <button type="button" class="close" data-dismiss="alert">&times;</button>
             <strong>Error:</strong> {%print(error)%}
         </div>
-        {%endif%}{%endblock error1%}
+        {%else%}
+        <script>
+            alert('Informacion actualizada exitosamente!')
+        </script>
+        {%endif%}
+        {%endblock error1%}
     </div>
 </body>
 </html>

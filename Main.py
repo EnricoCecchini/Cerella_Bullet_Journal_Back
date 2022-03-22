@@ -42,6 +42,7 @@ def registro():
         # Recibe datos de la pagina
         correo = request.form.get('correo')
         password = request.form.get('passw')
+        confirmarPassword = request.form.get('passw3')
         userName = request.form.get('userName')
 
         # Checa que se reciban todos los datos
@@ -65,6 +66,10 @@ def registro():
                 error = 'Nombre de usuario invalido'
                 return render_template("Registro.html",error=error)
         
+        if password != confirmarPassword:
+            error = 'Las contrasenas no coinciden'
+            return render_template("Registro.html",error=error)
+
         # Inserta datos de usuario
         loaf.query(f''' INSERT INTO usuario (correo, password, username)
                         VALUES ('{correo}', '{password}', '{userName}')''')
@@ -118,6 +123,7 @@ def perfil():
         print('Updating profile')
         newUsuario = request.form.get('username')
         newPassword = request.form.get('passw')
+        confirmarPassword = request.form.get('passw2')
         valid = True
 
         print(newUsuario)
@@ -128,6 +134,10 @@ def perfil():
                 error = 'Nombre de usuario invalido'
                 valid = False
                 # return render_template("Perfil.html",error=error)
+        if newPassword != confirmarPassword:
+            error = 'Las contrasenas no coinciden'
+            valid = False
+            
         if valid:
             userID = session['userID']
 
