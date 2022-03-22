@@ -27,8 +27,7 @@
             <div class="container-fluid">
                 <a class="navbar-brand" href="/"><span class="h3">Cerella</span></a>
                 <div class="col-6"></div>
-                <a class="nav-link h3" href="/catalogo">Catálogo</a>
-                <a class="nav-link h3" href="/perfil">Perfil</a>
+                <a class="nav-link h3" href="/login">Iniciar Sesión</a>
             </div>
         </nav>
     </div>
@@ -42,7 +41,7 @@
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="form-label">Usuario</label>
                             <input type="text" class="form-control" id="userName" name="userName"
-                                aria-describedby="emailHelp" maxlength=50>
+                                aria-describedby="emailHelp" maxlength=50 onclick="javascript:validateUser()">
                         </div>
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="form-label">Correo</label>
@@ -67,6 +66,17 @@
             </div>
         </div>
     </div>
+    <script type="text/javascript">
+        function validateUser() {
+            let usuario = document.getElementById('')
+            let filter = /^[a-zA-Z0-9\-]+$/;
+            if (!filter.test(usuario.value)){
+                alert("Nombre de usuario invalido")
+                email.focus;
+                return false;
+            }
+        }
+    </script>
 </body>
 
 </html>

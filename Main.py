@@ -4,6 +4,7 @@ from operator import methodcaller
 from flask import Flask, jsonify, request, render_template, session, redirect, url_for
 from flask_cors import CORS
 import loaf
+import re
 
 # Se crea objeto de Flask
 app = Flask(__name__)
@@ -36,6 +37,7 @@ def index():
 def registro():
 
     error=""
+    specialChars = '\\\'./<>!@#$%^&*()-=+~`'
     if request.method == "POST": 
         # Recibe datos de la pagina
         correo = request.form.get('correo')
@@ -46,10 +48,6 @@ def registro():
         if not (correo and password and userName):
             print(correo, password, userName)
             error="Faltan campos"
-            '''return jsonify({
-                'success': 'False',
-                'message': 'Faltan campos'
-            })'''
             return render_template("Registro.html",error=error)
         
         # Checa si el correo ya esta registrado
@@ -60,26 +58,17 @@ def registro():
         
         if checkExistenciaCorreo or checkExistenciaUser:
             error="Esta cuenta ya existe"
-            '''return jsonify({
-                'success': 'False',
-                'message': 'Esta cuenta ya existe'
-            })'''
             return render_template("Registro.html",error=error)
-
+        
+        for c in specialChars:
+            if c in userName:
+                error = 'Nombre de usuario invalido'
+                return render_template("Registro.html",error=error)
+        
         # Inserta datos de usuario
         loaf.query(f''' INSERT INTO usuario (correo, password, username)
                         VALUES ('{correo}', '{password}', '{userName}')''')
 
-        # Obtiene ID de usuario registrado para ingresar
-        userID = loaf.query(f''' SELECT usuarioID FROM usuario
-                                        WHERE correo = '{correo}' AND password = '{password}' '''.replace('\n',' '))
-        
-        '''
-        return jsonify({
-            'success': 'True',
-            'message': 'Usuario registrado exitosamente',
-            'userID': userID[0]
-        })'''
         return redirect(url_for("login"))
 
     else:
@@ -100,10 +89,6 @@ def login():
         # Checa que se reciban todos los campos
         if not (password and usuario):
             error="faltan campos"
-            '''return jsonify({
-                'success': 'False',
-                'message': 'Faltan campos'
-            })'''
             return render_template("Login.html",error=error)
         else:
             # Checa si se hace login con correo
@@ -114,18 +99,9 @@ def login():
             if login:
                 session['userID']=login[0][0]
                 return redirect(url_for("catalogo"))
-                '''return jsonify({
-                    'success': 'True',
-                    'message': 'Login Exitoso',
-                    'userID': loginCorreo[0]
-                })'''
             else:
                 error="Usuario o constraseña equivocados"
                 return render_template("Login.html",error=error)
-                '''return jsonify({
-                    'success': 'False',
-                    'message': 'Usuario o contrasena equivocados'
-                })'''
     else:
         return render_template("Login.html",error=error)
 
@@ -136,30 +112,33 @@ def perfil():
     usuario = ''
     uid = request.args.get('userid')
 
-    if not uid:
-        error="Faltan campos"
-        # return jsonify({
-        #     'success': 'False',
-        #     'message': 'Faltan campos'
-        # })
+    specialChars = '\\\'./<>!@#$%^&*()-=+~`'
     
     if request.method == "POST":
         print('Updating profile')
         newUsuario = request.form.get('username')
         newPassword = request.form.get('passw')
+        valid = True
 
-        userID = session['userID']
+        for c in specialChars:
+            if c in newUsuario:
+                error = 'Nombre de usuario invalido'
+                valid = False
+                # return render_template("Perfil.html",error=error)
 
-        userNameExists = loaf.query(f''' SELECT usuarioID FROM usuario WHERE username = '{newUsuario}' ''')
+        if valid:
+            userID = session['userID']
 
-        if newPassword == '':
-            newPassword=session["password"]
+            userNameExists = loaf.query(f''' SELECT usuarioID FROM usuario WHERE username = '{newUsuario}' ''')
 
-        if userNameExists:
-            errorCambio = 'El nombre de usuario ya esta registrado'
-        else:
-            loaf.query(f''' UPDATE usuario SET username='{newUsuario}', password='{newPassword}' WHERE usuarioID = '{userID}' ''')
-            session['usuario']=newUsuario
+            if newPassword == '':
+                newPassword=session["password"]
+
+            if userNameExists:
+                errorCambio = 'El nombre de usuario ya esta registrado'
+            else:
+                loaf.query(f''' UPDATE usuario SET username='{newUsuario}', password='{newPassword}' WHERE usuarioID = '{userID}' ''')
+                session['usuario']=newUsuario
     
     username = session["usuario"]
     print('UserName', username)

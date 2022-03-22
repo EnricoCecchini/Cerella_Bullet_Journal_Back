@@ -55,6 +55,12 @@
                 <button name='modificar_cuenta' id='confirmar-cambios' for='cambiar-info-usuario-btn' class="btn btn-primary" onclick="window.location.reload()">Cambiar</button>
             </div>
         </form>
+        {%block error1%}{%if error%}
+        <div class="alert alert-danger alert-dismissible fade show">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong>Error:</strong> {%print(error)%}
+        </div>
+        {%endif%}{%endblock error1%}
     </div>
 </body>
 </html>
