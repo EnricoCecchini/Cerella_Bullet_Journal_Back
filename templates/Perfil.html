@@ -21,11 +21,11 @@
 <body>
 
     <div>
-        <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
+        <nav class="navbar navbar-light" style="background-color: #FFC43D;">
             <div class="container-fluid">
-                <a class="navbar-brand" href="/"><span class="h3">Cerella</span></a>
+               <span class="h3">Cerella</span>
                 <div class="col-6"></div>
-                <a class="nav-link h3" href="/catalogo">Catálogo</a>
+                <a class="nav-link h3" href="/catalogo" style="color:black">Catálogo</a>
             </div>
         </nav>
     </div>
@@ -38,7 +38,7 @@
         <form method="POST"> 
             <div class="mx-5">
                 <label class="h2">Username</label>
-                <input name='username' class="form-control form-control-lg" type="text" placeholder="{%print(usuario[0])%}">
+                <input name='username' class="form-control form-control-lg" type="text" value='{{ usuario[0] }}'>
             </div>
             <br>
             <div class="mx-5">
@@ -48,11 +48,11 @@
             <br>
             <div class="mx-5">
                 <label class="h2">Password</label>
-                <input name='passw' class="form-control form-control-lg" type="password" placeholder="{%print('*' * usuario[2])%}" >
+                <input name='passw' class="form-control form-control-lg" type="password" value='{{ usuario[2] }}'>
             </div>
             <br>
             <div class="mx-5 mt-5">
-                <button name='modificar_cuenta' id='confirmar-cambios' for='cambiar-info-usuario-btn' class="btn btn-primary" onclick="window.location.reload()">Cambiar</button>
+                <button name='modificar_cuenta' id='confirmar-cambios' for='cambiar-info-usuario-btn' class="btn btn-primary" onclick="alert('Informacion actualizada exitosamente!');window.location.reload()">Cambiar</button>
             </div>
         </form>
         {%block error1%}{%if error%}

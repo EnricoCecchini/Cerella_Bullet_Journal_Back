@@ -120,12 +120,14 @@ def perfil():
         newPassword = request.form.get('passw')
         valid = True
 
+        print(newUsuario)
+        print(newPassword)
+
         for c in specialChars:
             if c in newUsuario:
                 error = 'Nombre de usuario invalido'
                 valid = False
                 # return render_template("Perfil.html",error=error)
-
         if valid:
             userID = session['userID']
 
@@ -134,7 +136,7 @@ def perfil():
             if newPassword == '':
                 newPassword=session["password"]
 
-            if userNameExists:
+            if userNameExists and (newUsuario != session["usuario"]):
                 errorCambio = 'El nombre de usuario ya esta registrado'
             else:
                 loaf.query(f''' UPDATE usuario SET username='{newUsuario}', password='{newPassword}' WHERE usuarioID = '{userID}' ''')
@@ -150,7 +152,7 @@ def perfil():
         error="El usuario no existe"
 
     # print('Eli', userInfo)
-    usuario = [userInfo[0], userInfo[1], len(userInfo[2])]
+    usuario = [userInfo[0], userInfo[1], userInfo[2]]
 
     return render_template('Perfil.html', error=error, usuario=usuario, errorCambio=errorCambio)
 
