@@ -51,6 +51,23 @@ def registro():
             error="Faltan campos"
             return render_template("Registro.html",error=error)
         
+        specialPassw = False
+        passwMayus = False
+
+        for c in specialChars:
+            if c in password:
+                specialPassw = True
+                break
+        
+        for c in password:
+            if c.isupper():
+                passwMayus = True
+                break
+        
+        if not (specialPassw and passwMayus):
+            error="La contrasena debe contener minimo 1 caracter especial y 1 letra mayuscula"
+            return render_template("Registro.html",error=error)
+
         # Checa si el correo ya esta registrado
         checkExistenciaCorreo = loaf.query(f''' SELECT usuarioID FROM usuario WHERE correo = '{correo}' ''')
 
@@ -129,11 +146,28 @@ def perfil():
         print(newUsuario)
         print(newPassword)
 
+        passwMayus = False
+        specialPassw = False
+
         for c in specialChars:
             if c in newUsuario:
                 error = 'Nombre de usuario invalido'
                 valid = False
-                # return render_template("Perfil.html",error=error)
+
+        for c in newPassword:
+            if c.isupper():
+                passwMayus = True
+                break
+        
+        for c in specialChars:
+            if c in newPassword:
+                specialPassw = True
+                break
+        
+        if not (passwMayus and specialPassw):
+            error = 'La contrasena debe contener minimo 1 caracter especial y 1 letra mayuscula'
+            valid = False
+
         if newPassword != confirmarPassword:
             error = 'Las contrasenas no coinciden'
             valid = False

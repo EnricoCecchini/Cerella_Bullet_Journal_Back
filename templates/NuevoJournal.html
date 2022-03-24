@@ -10,12 +10,35 @@
     <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
     <title>Cuaderno Nuevo</title>
     <style>
+        
         body {
             font-family: 'Poppins';
         }
+
+        .h1 {
+            font-size: 70vh;
+            font-weight: bold;
+        }
+
+        /* .card:hover:focus {
+            background-color: aquamarine;
+            box-shadow: 0px 10px 40px rgba(160, 157, 198, 0.4);
+        } */
+
+        .card:hover {
+            background-color: aquamarine;
+            box-shadow: 0px 10px 40px rgba(160, 157, 198, 0.4);
+        }
+
+        .prueba {
+            background-color: #FFC43D;
+            box-shadow: 0px 10px 40px rgba(160, 157, 198, 0.4);
+        }
+
     </style>
 </head>
 <body>
+
     <div>
         <nav class="navbar navbar-light" style="background-color: #FFC43D;">
             <div class="container-fluid">
@@ -29,7 +52,87 @@
 
     <div class="mx-5 mt-5">
         <h1><strong>Agregar</strong></h1>
+        <br>
+        <h3><strong>Plantillas disponibles</strong></h3>
+        
+    </div>
+
+    <div>
+
+        <div class="row mx-5">
+
+                <div class="col-4">
+                    <div class="card m-4" onclick="mifuncion()" id="prueba">
+                        <a class="card-block stretched-link text-decoration-none"></a>
+                        <img class="card-img-top img-fluid" style="height: 20vw; object-fit: cover" src="https://images.unsplash.com/photo-1478760329108-5c3ed9d495a0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8YmFja2dyb3VuZHxlbnwwfDB8MHx8&auto=format&fit=crop&w=500&q=60" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">Journal 1</h5>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-4">
+                    <div class="card m-4" onclick="mifuncion()" id="prueba">
+                        <a class="card-block stretched-link text-decoration-none"></a>
+                        <img class="card-img-top img-fluid" style="height: 20vw; object-fit: cover" src="https://images.unsplash.com/photo-1476820865390-c52aeebb9891?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NXx8YmFja2dyb3VuZHxlbnwwfDB8MHx8&auto=format&fit=crop&w=500&q=60" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">Journal 2</h5>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-4">
+                    <div class="card m-4" onclick="mifuncion()" id="prueba">
+                        <a class="card-block stretched-link text-decoration-none"></a>
+                        <img class="card-img-top img-fluid" style="height: 20vw; object-fit: cover" src="https://images.unsplash.com/photo-1507608158173-1dcec673a2e5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTB8fGJhY2tncm91bmR8ZW58MHwwfDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">Journal 3</h5>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+
+    <div class="mx-5 mt-5 row">
+        <h3>¿Ya compraste tu Bullet Journal físico?</h3>
+        <h5>Ingresa aquí tu código para descargar la plantilla digital</h5>
+        <div class="col-2 mt-3">
+            <h2>Código</h2>
+        </div>
+        <div class="col-3">
+            <input class="form-control form-control-lg mt-2" type="text" placeholder="Ej. 123456789 ">
+        </div>
+        <div class="col-1">
+        </div>
+        
+        
+    </div>
+    <div class="row">
+        <div class="col-4"></div>
+            <div class="col-3 mt-1 ml-3">
+                <button type="button" class="btn btn-danger ml-2">Descargar</button>
+            </div>
+        <div class="col-4"></div>
+    </div>
+
+    <div class=" mx-5 mt-5 row">
+        <h3>¿No tienes un Bullet Journal físico?</h3>
+        <h5>Compra la plantilla digital</h5>
+    </div>
+
+    <div class="mx-5 row">
+        <div class="col-3">
+            <button type="button" class="btn btn-danger">Iniciar Sesión con Paypal</button>
+        </div>
+        <div class="col-6"></div>
     </div>
     
+    <script>
+        function mifuncion(){
+            const element=document.getElementById("prueba")
+            element.classList.add("prueba")
+        }
+    </script>
+
 </body>
 </html>
