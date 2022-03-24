@@ -175,6 +175,10 @@ def catalogo():
     else:
         return redirect(url_for("login"))
 
+@app.route("/nuevoJournal")
+def nuevoJournal():
+    return render_template("NuevoJournal.html")
+
 # Ejecuta el API
 if __name__ == "__main__":
     app.run(debug=True)
