@@ -65,7 +65,7 @@ def registro():
                 break
         
         if not (specialPassw and passwMayus):
-            error="La contrasena debe contener minimo 1 caracter especial y 1 letra mayuscula"
+            error=f"La contrasena debe contener minimo 1 caracter especial y 1 letra mayuscula {password, specialPassw, passwMayus}"
             return render_template("Registro.html",error=error)
 
         # Checa si el correo ya esta registrado
@@ -84,7 +84,7 @@ def registro():
                 return render_template("Registro.html",error=error)
         
         if password != confirmarPassword:
-            error = 'Las contrasenas no coinciden'
+            error = f'Las contrasenas no coinciden {password, confirmarPassword}'
             return render_template("Registro.html",error=error)
 
         # Inserta datos de usuario
