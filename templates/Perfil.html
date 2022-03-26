@@ -12,6 +12,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+    <script src="https://kit.fontawesome.com/59caa79852.js" crossorigin="anonymous"></script>
     <style>
         body {
             font-family: 'Poppins';
@@ -23,54 +24,72 @@
     <div>
         <nav class="navbar navbar-light" style="background-color: #FFC43D;">
             <div class="container-fluid">
-               <span class="h3">Cerella</span>
+                <a class="nav-link h3" href="/" style="color:black">Cerella</a>
                 <div class="col-6"></div>
                 <a class="nav-link h3" href="/catalogo" style="color:black">Catálogo</a>
             </div>
         </nav>
     </div>
 
-    <div class="mx-5 mt-5">
-        <h1>Perfil</h1>
-    </div>
-    <br>
-    <div>
-        <form method="POST"> 
-            <div class="mx-5">
-                <label class="h2">Username</label>
-                <input name='username' class="form-control form-control-lg" type="text" value='{{ usuario[0] }}'>
+    <div class="mx-5 mt-5 mb-3">  
+        <div class="row align-items-center mt-5">
+            <div class="col-2"></div>
+            <div class="col-8">
+            <form method="POST"> 
+                <div class="mx-5 mb-3">
+                    <h1>Perfil</h1> 
+                </div>
+                <div class="mx-5 mt-5 mb-3"> 
+                    <label class="h3">Username</label>
+                    <input name='username' class="form-control form-control-lg" type="text" value='{{ usuario[0] }}'>
+                </div>
+                <br>
+                <div class="mx-5 mb-3">
+                    <label class="h3">Correo</label>
+                    <input name='correo' class="form-control form-control-lg" type="email" placeholder="{%print(usuario[1])%}" readonly>
+                </div>
+                <br>
+                <div class="mx-5 mb-3">
+                    <label class="h3">Password</label>
+                    <input name='passw' class="form-control form-control-lg" type="password" value='{{ usuario[2] }}'>
+                </div>
+                <br>
+                <div class="mx-5 mb-3">
+                    <label class="h3">Confirmar Password</label>
+                    <input name='passw2' class="form-control form-control-lg" type="password" value=''>
+                </div>
+                <br>
+                <div class="mx-5 mt-2 mb-3">
+                    <button name='modificar_cuenta' id='confirmar-cambios' for='cambiar-info-usuario-btn' class="btn btn-primary" onclick="window.location.reload()">Cambiar</button>
+                </div>
+            </form>
+
+            {%block error1%}{%if error%}
+            <div class="alert alert-danger alert-dismissible fade show mx-5 mt-1 mb-2" role="alert">
+            <strong>Error: </strong>{%print(error)%}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
-            <br>
-            <div class="mx-5">
-                <label class="h2">Correo</label>
-                <input name='correo' class="form-control form-control-lg" type="email" placeholder="{%print(usuario[1])%}" readonly>
+            
+            {%endif%}
+            {%endblock error1%}
+
+            {%block check1%}{%if check%}
+            <div class="alert alert-success alert-dismissible fade show mx-5 mt-1 mb-2" role="alert">
+            <strong>Listo: </strong>{%print(check)%}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
-            <br>
-            <div class="mx-5">
-                <label class="h2">Password</label>
-                <input name='passw' class="form-control form-control-lg" type="password" value='{{ usuario[2] }}'>
-            </div>
-            <br>
-            <div class="mx-5">
-                <label class="h2">Confirmar Password</label>
-                <input name='passw2' class="form-control form-control-lg" type="password" value=''>
-            </div>
-            <br>
-            <div class="mx-5 mt-5">
-                <button name='modificar_cuenta' id='confirmar-cambios' for='cambiar-info-usuario-btn' class="btn btn-primary" onclick="window.location.reload()">Cambiar</button>
-            </div>
-        </form>
-        {%block error1%}{%if error%}
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-          <strong>Error: </strong>{%print(error)%}
-          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        {%else%}
-        <script>
-            alert('Informacion actualizada exitosamente!')
-        </script>
-        {%endif%}
-        {%endblock error1%}
+            
+            {%endif%}
+            {%endblock check1%}
+
+            <form method="POST"> 
+                <hr>
+                <div class="mx-5 mt-2">
+                    <button type="submit" class="btn btn-outline-danger" name="logout" id="logout">
+                        <p class="p-0 m-0"><i class="fa-solid fa-arrow-right-from-bracket"></i><span> Log out</span></p>
+                    </button>
+                </div>
+            </form>
     </div>
 </body>
 </html>

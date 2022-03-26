@@ -1,4 +1,5 @@
 # Importacion de modulos requeridos
+from crypt import methods
 from distutils.log import error
 from operator import methodcaller
 from flask import Flask, jsonify, request, render_template, session, redirect, url_for
@@ -23,15 +24,21 @@ loaf.bake(
 
 @app.route("/")
 def index():
+    # try:
+    #     if not (session["usuario"] and session["password"]):
+    #         session["usuario"]=""
+    #         session["password"]=""
+    # except KeyError:
+    #     session["usuario"]=""
+    #     session["password"]=""
     try:
-        if not (session["usuario"] and session["password"]):
-            session["usuario"]=""
-            session["password"]=""
+        if (session["usuario"] and session["password"]):
+            return render_template("index_session.html")
     except KeyError:
-        session["usuario"]=""
-        session["password"]=""
+        session["usuario"] = ""
+        session["password"] = ""
     return render_template("index.html")
-
+    
 # Funcion de registro
 @app.route('/registro', methods=["POST","GET"])
 def registro():
@@ -130,6 +137,7 @@ def login():
 @app.route('/perfil', methods=["POST","GET"])
 def perfil():
     error=""
+    check=""
     errorCambio=""
     usuario = ''
     uid = request.args.get('userid')
@@ -137,6 +145,14 @@ def perfil():
     specialChars = '\\\'./<>!@#$%^&*()-=+~`'
     
     if request.method == "POST":
+        
+        print("Hola 1")
+        if 'logout' in request.form:
+            session["usuario"]=""
+            session["password"]=""
+            print("Hola 2")
+            return redirect(url_for("index"))
+        
         print('Updating profile')
         newUsuario = request.form.get('username')
         newPassword = request.form.get('passw')
@@ -169,10 +185,11 @@ def perfil():
             valid = False
 
         if newPassword != confirmarPassword:
-            error = 'Las contrasenas no coinciden'
+            error = 'Las contraseñas no coinciden'
             valid = False
             
         if valid:
+            check = "Información actualizada!"
             userID = session['userID']
 
             userNameExists = loaf.query(f''' SELECT usuarioID FROM usuario WHERE username = '{newUsuario}' ''')
@@ -198,7 +215,7 @@ def perfil():
     # print('Eli', userInfo)
     usuario = [userInfo[0], userInfo[1], userInfo[2]]
 
-    return render_template('Perfil.html', error=error, usuario=usuario, errorCambio=errorCambio)
+    return render_template('Perfil.html', error=error, check=check, usuario=usuario, errorCambio=errorCambio)
 
 @app.route("/catalogo")
 def catalogo():
@@ -209,9 +226,19 @@ def catalogo():
     else:
         return redirect(url_for("login"))
 
-@app.route("/nuevoJournal")
+@app.route("/nuevoJournal", methods=["POST","GET"])
 def nuevoJournal():
-    return render_template("NuevoJournal.html")
+
+    plantilla1 = ["nombre"]
+    plantilla2 = ["nombre2"]
+    plantilla3 = ["nombre3"]
+    plantillas = [plantilla1, plantilla2, plantilla3]
+
+    if request.method == "POST":
+        categoria = request.form.get('categoria')
+        print(categoria)
+    
+    return render_template("NuevoJournal.html", plantillas=plantillas)
 
 # Ejecuta el API
 if __name__ == "__main__":

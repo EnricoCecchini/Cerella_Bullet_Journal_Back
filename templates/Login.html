@@ -26,7 +26,7 @@
   <div>
     <nav class="navbar navbar-light" style="background-color: #FFC43D;">
         <div class="container-fluid">
-          <span class="h3">Cerella</span>
+            <a class="nav-link h3" href="/" style="color:black">Cerella</a>
             <div class="col-6"></div>
             <a class="nav-link h3" href="/registro" style="color:black">Regístrate</a>
         </div>
@@ -34,20 +34,25 @@
 </div>
 
   <div>
-    <div class="container">
+    <div class="container"> 
       <div class="row align-items-center mt-5">
         <div class="col-2"></div>
         <div class="col-8">
           <form method="POST">
-            <div class="mb-3">
-              <label for="exampleInputEmail1" class="form-label">Correo o usuario</label>
-              <input type="text" class="form-control" id="usuario" name="usuario" aria-describedby="emailHelp">
+            <div class="mx-5 mb-3">
+              <h1>Inicia sesión</h1>  
             </div>
-            <div class="mb-3">
-              <label for="exampleInputPassword1" class="form-label">Contraseña</label>
-              <input type="password" class="form-control" id="passw" name="passw">
+            <div class="mx-5 mt-5 mb-3">
+              <label for="exampleInputEmail1" class="form-label h3">Correo o usuario</label>
+              <input type="text" class="form-control form-control-lg" id="usuario" name="usuario" aria-describedby="emailHelp">
             </div>
-            <button type="submit" class="btn btn-primary" name="b1">Iniciar Sesión</button>
+            <div class="mx-5 mb-3">
+              <label for="exampleInputPassword1" class="form-label h3">Contraseña</label>
+              <input type="password" class="form-control form-control-lg" id="passw" name="passw">
+            </div>
+            <div class="mx-5 mt-2 mb-3">
+              <button type="submit" class="btn btn-primary" name="b1">Iniciar Sesión</button>
+            </div>
           </form>
           {%block error1%}{%if error%}
           <div class="alert alert-danger alert-dismissible fade show" role="alert">
