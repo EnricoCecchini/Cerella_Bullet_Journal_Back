@@ -242,7 +242,7 @@ def nuevoJournal():
 
         if 'buscarCategoria' in request.form:
             categoria = request.form.get('categoria')
-            print(categoria)
+            # print(categoria)
             # Query de loaf 
             if categoria != '0':
                 try:
@@ -257,13 +257,19 @@ def nuevoJournal():
                 journals = loaf.query(f'''SELECT plantilla.plantillaID, nombre, imagen, categoriaID
                                     FROM plantilla INNER JOIN plantilla_categoria 
                                     ON plantilla.plantillaID = plantilla_categoria.plantillaID''')
-                print(journals)
+                #print(journals)
 
         if 'descarga' in request.form:
             codigo = request.form.get('codigo')
             journal = request.form.get('descargarJournal')
-            print(codigo, journal)
+            titulo = request.form.get('titulo')
+            print(codigo, journal, titulo)
             # Query de loaf
+
+            # loaf.query(f''' INSERT INTO journal (titulo)
+            #                 VALUES ('{titulo}') ''')
+            
+            idJournal = loaf.query
         
     return render_template("NuevoJournal.html", journals=journals)
 

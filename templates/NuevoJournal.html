@@ -84,7 +84,7 @@
                         <img class="card-img-top img-fluid" style="height: 20vw; object-fit: cover" src={{journal[2]}} alt="Card image cap">
                         <div class="card-body">
                             <h5 class="card-title">{%print(journal[1])%}</h5>
-                            <input type="hidden" name="descargarJournal" id="seleccionJournal" value="5">
+                            <input type="hidden" name="descargarJournal" id="seleccionJournal" value="">
                         </div>
                     </div>
                 </div>
@@ -94,6 +94,17 @@
         <div class="mx-5 mt-5 row">
             <h3>¿Ya compraste tu Bullet Journal físico?</h3>
             <h5>Ingresa aquí tu código para descargar la plantilla digital</h5>
+            
+            <div class="col-2 mt-3">
+                <h2>Titulo</h2>
+            </div>
+            <div class="col-3">
+                <input name="titulo" class="form-control form-control-lg mt-2" type="text" placeholder="Ej. Mis Suenos ">
+            </div>
+                <div class="col-1">
+            </div> 
+        </div>
+        <div class="mx-5 row">
             <div class="col-2 mt-3">
                 <h2>Código</h2>
             </div>
