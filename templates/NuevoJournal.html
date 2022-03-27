@@ -25,9 +25,14 @@
             box-shadow: 0px 10px 40px rgba(160, 157, 198, 0.4);
         } */
 
-        .prueba {
+        .seleccion {
             background-color: #FFC43D;
             box-shadow: 0px 10px 40px rgba(160, 157, 198, 0.4);
+        }
+
+        .desseleccion {
+            background-color: white;
+            box-shadow: none;
         }
 
     </style>
@@ -48,13 +53,14 @@
     <div class="mx-5 mt-5">
         <h1><strong>Agregar</strong></h1>
         <br>
-        <h3><strong>Plantillas disponibles</strong></h3>
+        <h3><strong>Journals disponibles</strong></h3>
     </div>
 
 
     <form method="POST">
-        <div class="container mx-5 mt-5 mb-3">
+        <div class="container mx-4 mt-5 mb-3">
             <div class="row">
+                <h4><strong>Categoría</strong></h4>
                 <div class="col-4">
                     <select class="form-select form-select-lg" aria-label=".form-select-lg example" name="categoria">
                         <option id="Categoria1" name="Categoria1" value="1" selected>Cuidado Personal</option>
@@ -62,51 +68,48 @@
                       </select>
                 </div>
                 <div class="col">
-                    <button type="submit" class="btn btn-success h-100">Buscar</button>
+                    <button name="buscarCategoria" type="submit" class="btn btn-success h-100">Buscar</button>
                 </div>
             </div>
         </div>
     </form>
-
-    <div>
+  
+    <form method="POST">
         <div class="row mx-5">
-
             {%for plantilla in plantillas%}
                 <div class="col-4">
-                    <div class="card m-4" onclick="mifuncion()" id="prueba">
+                    <div class="card m-4" onclick="mifuncion({%print(plantilla[0])%})" id={{plantilla[0]}}>
                         <a class="card-block stretched-link text-decoration-none"></a>
-                        <img class="card-img-top img-fluid" style="height: 20vw; object-fit: cover" src="https://images.unsplash.com/photo-1478760329108-5c3ed9d495a0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8YmFja2dyb3VuZHxlbnwwfDB8MHx8&auto=format&fit=crop&w=500&q=60" alt="Card image cap">
+                        <img class="card-img-top img-fluid" style="height: 20vw; object-fit: cover" src={{plantilla[2]}} alt="Card image cap">
                         <div class="card-body">
-                            <h5 class="card-title">{%print(plantilla[0])%}</h5>
+                            <h5 class="card-title">{%print(plantilla[1])%}</h5>
+                            <input type="hidden" name="descargarJournal" id="seleccionJournal" value="5">
                         </div>
                     </div>
                 </div>
             {%endfor%}
-
         </div>
-    </div>
-
-    <div class="mx-5 mt-5 row">
-        <h3>¿Ya compraste tu Bullet Journal físico?</h3>
-        <h5>Ingresa aquí tu código para descargar la plantilla digital</h5>
-        <div class="col-2 mt-3">
-            <h2>Código</h2>
-        </div>
-        <div class="col-3">
-            <input class="form-control form-control-lg mt-2" type="text" placeholder="Ej. 123456789 ">
-        </div>
-        <div class="col-1">
-        </div>
-        
-        
-    </div>
-    <div class="row">
-        <div class="col-4"></div>
-            <div class="col-3 mt-1 ml-3">
-                <button type="button" class="btn btn-danger ml-2">Descargar</button>
+    
+        <div class="mx-5 mt-5 row">
+            <h3>¿Ya compraste tu Bullet Journal físico?</h3>
+            <h5>Ingresa aquí tu código para descargar la plantilla digital</h5>
+            <div class="col-2 mt-3">
+                <h2>Código</h2>
             </div>
-        <div class="col-4"></div>
-    </div>
+            <div class="col-3">
+                <input name="codigo" class="form-control form-control-lg mt-2" type="text" placeholder="Ej. 123456789 ">
+            </div>
+                <div class="col-1">
+            </div> 
+        </div>
+        <div class="row">
+            <div class="col-4"></div>
+                <div class="col-3 mt-1 ml-3">
+                    <button name="descarga" type="submit" class="btn btn-danger ml-2">Descargar</button>
+                </div>
+            <div class="col-4"></div>
+        </div>
+    </form>
 
     <div class=" mx-5 mt-5 row">
         <h3>¿No tienes un Bullet Journal físico?</h3>
@@ -121,9 +124,18 @@
     </div>
     
     <script>
-        function mifuncion(){
-            const element=document.getElementById("prueba")
-            element.classList.add("prueba")
+        function mifuncion(idPlantilla){
+            const journals = document.getElementsByClassName("card")
+            for (let i=0;i<journals.length;i++){
+                try {
+                    journals[i].classList.remove("seleccion")                    
+                } catch (e) {
+                    console.log(e)
+                }
+            }
+            const element=document.getElementById(idPlantilla)
+            element.classList.add("seleccion")
+            document.getElementById("seleccionJournal").value = idPlantilla
         }
     </script>
 
