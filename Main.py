@@ -1,5 +1,4 @@
 # Importacion de modulos requeridos
-from crypt import methods
 from distutils.log import error
 from operator import methodcaller
 from flask import Flask, jsonify, request, render_template, session, redirect, url_for
@@ -235,24 +234,37 @@ def catalogo():
 
 @app.route("/nuevoJournal", methods=["POST","GET"])
 def nuevoJournal():
-
-    journal1 = [1, "nombre", "https://images.unsplash.com/photo-1478760329108-5c3ed9d495a0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8YmFja2dyb3VuZHxlbnwwfDB8MHx8&auto=format&fit=crop&w=500&q=60"]
-    journal2 = [2, "nombre2", "https://images.unsplash.com/photo-1648313601328-b3a5799e565c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwyfHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60"]
-    journal3 = [3, "nombre3", "https://images.unsplash.com/photo-1648290023792-d4936450a847?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80"]
-    journals = [journal1, journal2, journal3]
+    journals = loaf.query(f'''SELECT plantilla.plantillaID, nombre, imagen, categoriaID
+                                        FROM plantilla INNER JOIN plantilla_categoria 
+                                        ON plantilla.plantillaID = plantilla_categoria.plantillaID''')
 
     if request.method == "POST":
 
         if 'buscarCategoria' in request.form:
             categoria = request.form.get('categoria')
+            print(categoria)
             # Query de loaf 
+            if categoria != '0':
+                try:
+                    journals = loaf.query(f'''SELECT plantilla.plantillaID, nombre, imagen, categoriaID
+                                            FROM plantilla INNER JOIN plantilla_categoria 
+                                            ON plantilla.plantillaID = plantilla_categoria.plantillaID
+                                            WHERE categoriaID = {categoria} ''')
+                except IndexError:
+                    journals = []
+
+            else:
+                journals = loaf.query(f'''SELECT plantilla.plantillaID, nombre, imagen, categoriaID
+                                    FROM plantilla INNER JOIN plantilla_categoria 
+                                    ON plantilla.plantillaID = plantilla_categoria.plantillaID''')
+                print(journals)
 
         if 'descarga' in request.form:
             codigo = request.form.get('codigo')
             journal = request.form.get('descargarJournal')
             print(codigo, journal)
             # Query de loaf
-    
+        
     return render_template("NuevoJournal.html", journals=journals)
 
 @app.route("/modificar")
