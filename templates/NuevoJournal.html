@@ -76,13 +76,13 @@
   
     <form method="POST">
         <div class="row mx-5">
-            {%for plantilla in plantillas%}
+            {%for journal in journals%}
                 <div class="col-4">
-                    <div class="card m-4" onclick="mifuncion({%print(plantilla[0])%})" id={{plantilla[0]}}>
+                    <div class="card m-4" onclick="mifuncion({%print(journal[0])%})" id={{journal[0]}}>
                         <a class="card-block stretched-link text-decoration-none"></a>
-                        <img class="card-img-top img-fluid" style="height: 20vw; object-fit: cover" src={{plantilla[2]}} alt="Card image cap">
+                        <img class="card-img-top img-fluid" style="height: 20vw; object-fit: cover" src={{journal[2]}} alt="Card image cap">
                         <div class="card-body">
-                            <h5 class="card-title">{%print(plantilla[1])%}</h5>
+                            <h5 class="card-title">{%print(journal[1])%}</h5>
                             <input type="hidden" name="descargarJournal" id="seleccionJournal" value="5">
                         </div>
                     </div>

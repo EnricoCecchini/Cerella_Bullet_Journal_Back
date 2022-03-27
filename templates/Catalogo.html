@@ -72,76 +72,19 @@
 
     <div>
         <div class="row mx-5">
-            <div class="col-4">
-                <div class="card m-4">
-                    <img class="card-img-top img-fluid" style="height: 20vw; object-fit: cover" src="https://images.unsplash.com/photo-1478760329108-5c3ed9d495a0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8YmFja2dyb3VuZHxlbnwwfDB8MHx8&auto=format&fit=crop&w=500&q=60" alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">Journal 1</h5>
-                        <p class="card-text">Journal de mis peliculas favoritas.</p>
-                        <a href="#" class="btn btn-primary">Modificar</a>
+            {%for journal in journals%}
+                <div class="col-4">
+                    <div class="card m-4" id={{journal[0]}}>
+                        <a class="card-block stretched-link text-decoration-none"></a>
+                        <img class="card-img-top img-fluid" style="height: 20vw; object-fit: cover" src={{journal[2]}} alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">{%print(journal[1])%}</h5>
+                            <input type="hidden" name="descargarJournal" id="seleccionJournal" value="5">
+                            <button name="modificar" type="button" class="btn btn-primary ml-2" href="/modificar">Modificar</button>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-4">
-                <div class="card m-4">
-                    <img class="card-img-top img-fluid" style="height: 20vw; object-fit: cover" src="https://images.unsplash.com/photo-1476820865390-c52aeebb9891?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NXx8YmFja2dyb3VuZHxlbnwwfDB8MHx8&auto=format&fit=crop&w=500&q=60" alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">Journal 2</h5>
-                        <p class="card-text">Journal de mis parodias favoritas.</p>
-                        <a href="#" class="btn btn-primary">Modificar</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-4">
-                <div class="card m-4">
-                    <img class="card-img-top img-fluid" style="height: 20vw; object-fit: cover" src="https://images.unsplash.com/photo-1507608158173-1dcec673a2e5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTB8fGJhY2tncm91bmR8ZW58MHwwfDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60" alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">Journal 3</h5>
-                        <p class="card-text">Journal de mis parodias favoritas.</p>
-                        <a href="#" class="btn btn-primary">Modificar</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-4">
-                <div class="card m-4">
-                    <img class="card-img-top img-fluid" style="height: 20vw; object-fit: cover" src="https://images.unsplash.com/photo-1444703686981-a3abbc4d4fe3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjB8fGJhY2tncm91bmR8ZW58MHwwfDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60" alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">Journal 4</h5>
-                        <p class="card-text">Journal de mis peliculas favoritas.</p>
-                        <a href="#" class="btn btn-primary">Modificar</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-4">
-                <div class="card m-4">
-                    <img class="card-img-top img-fluid" style="height: 20vw; object-fit: cover" src="https://images.unsplash.com/photo-1493815793585-d94ccbc86df8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NTF8fGJhY2tncm91bmR8ZW58MHwwfDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60" alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">Journal 5</h5>
-                        <p class="card-text">Journal de mis peliculas favoritas.</p>
-                        <a href="#" class="btn btn-primary">Modificar</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-4">
-                <div class="card m-4">
-                    <img class="card-img-top img-fluid" style="height: 20vw; object-fit: cover" src="https://images.unsplash.com/photo-1607499699372-7bb722dff7e2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MzV8fGJhY2tncm91bmR8ZW58MHwwfDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60" alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">Journal 6</h5>
-                        <p class="card-text">Journal de mis peliculas favoritas.</p>
-                        <a href="#" class="btn btn-primary">Modificar</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-4">
-                <div class="card m-4">
-                    <img class="card-img-top img-fluid" style="height: 20vw; object-fit: cover" src="https://i.redd.it/hma9mivkd8a21.jpg" alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">Kachowski bby</h5>
-                        <p class="card-text">Ka-chow~.</p>
-                        <a href="#" class="btn btn-primary">Modificar</a>
-                    </div>
-                </div>
-            </div>
+            {%endfor%}
         </div>
     </div>
 
